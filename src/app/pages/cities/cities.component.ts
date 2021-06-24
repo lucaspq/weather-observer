@@ -9,7 +9,7 @@ import { Weather } from 'src/app/models/weather';
 })
 export class CitiesComponent implements OnInit {
 
-  weathers: Weather[] = [];
+  // weathers: Weather[];// = [];
 
   cities = ['Fortaleza', 'Sao Paulo', 'New York', 'Colorado'];
 
@@ -17,20 +17,23 @@ export class CitiesComponent implements OnInit {
     private weatherService: WeatherService
   ) { }
 
+  get weathers() {
+    return this.weatherService.allWeathers;
+  }
+
   ngOnInit(): void {
     this.loadWeathers();
   }
 
   loadWeathers() {
     this.cities.forEach( (city: string) => {
-      this.addWeather(city);
+      this.addObservedCity(city);
     })
   }
 
-  addWeather(city: string) {
-    this.weatherService.getWeather(city).subscribe( (res: Weather) => {
-      console.log(res);
-      this.weathers.push(res);
+  private addObservedCity(city: string) {
+    this.weatherService.addWeather(city).subscribe( () => {
+      console.log(`City ${city} successfully added!`);
     });
   }
 

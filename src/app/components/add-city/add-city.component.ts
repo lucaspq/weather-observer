@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { FlatpickrOptions } from 'ng2-flatpickr';
-// import 'flatpickr/dist/flatpickr.css'; // you may need to adjust the css import depending on your build tool
+import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-add-city',
@@ -13,14 +13,13 @@ export class AddCityComponent {
   cityList = require('./city.list.json');
   cityNameList = [];
   cityKey = '';
-  searchText = '';
   cities = ['Fortaleza', 'Sao Paulo', 'New York', 'Colorado'];
 
 
   @ViewChild('startPicker') pickerStart;
   @ViewChild('endPicker') pickerEnd;
 
-  DAY = 86400000;
+  // DAY = 86400000;
   // minDate: new Date(Date.now() + (this.DAY*29)),
 
   startOptions: FlatpickrOptions = {
@@ -41,7 +40,8 @@ export class AddCityComponent {
 
   form: FormGroup;
 
-  constructor( 
+  constructor(
+    private weatherService: WeatherService,
     private formBuilder: FormBuilder
     ) {
       this.form = formBuilder.group({
@@ -77,7 +77,11 @@ export class AddCityComponent {
   }
 
   onSubmit() {
-    alert(`City ${this.form.controls.cityName.value} added with success between ${this.form.controls.start.value} e ${this.form.controls.end.value} !`);
+    const city = this.form.controls.cityName.value;
+    this.weatherService.addWeather(city).subscribe( () => {
+      console.log(`City ${city} successfully added!`);
+      alert(`City ${city} successfully added between ${this.form.controls.start.value} e ${this.form.controls.end.value} !`);
+    });
   }
 
   selectEvent(item) {
