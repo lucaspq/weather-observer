@@ -1,0 +1,28 @@
+<div [formGroup]="form" class="d-flex">
+    <div class="ng-autocomplete">
+        <ng-autocomplete 
+          [data]="cities"
+          [minQueryLength]=1
+          [searchKeyword]="cityKey"
+          (selected)='selectEvent($event)'
+          (inputChanged)='onChangeSearch($event)'
+          (inputFocused)='onFocused($event)'
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate"
+          formControlName='cityName'>                    
+        </ng-autocomplete>
+        
+        <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item"></a>
+        </ng-template>
+        
+        <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+        </ng-template>
+    </div>
+
+    <!-- <input class="form-control me-2" type="search" formControlName="cityName" placeholder="Enter City" aria-label="Search"> -->
+    <ng2-flatpickr #startPicker [config]="startOptions" formControlName="start"></ng2-flatpickr>
+    <ng2-flatpickr #endPicker [config]="endOptions" formControlName="end"></ng2-flatpickr>
+    <button class="btn btn-outline-success" type="submit" (click)="onSubmit()">Add</button>
+</div>

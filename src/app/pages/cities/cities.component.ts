@@ -22,12 +22,16 @@ export class CitiesComponent implements OnInit {
   }
 
   loadWeathers() {
-    this.cities.forEach( (city) => {
-      this.weatherService.getWeather(city).subscribe( (res: Weather) => {
-        console.log(res);
-        this.weathers.push(res);
-      });
+    this.cities.forEach( (city: string) => {
+      this.addWeather(city);
     })
+  }
+
+  addWeather(city: string) {
+    this.weatherService.getWeather(city).subscribe( (res: Weather) => {
+      console.log(res);
+      this.weathers.push(res);
+    });
   }
 
 }
