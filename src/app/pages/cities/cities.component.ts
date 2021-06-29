@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
-import { Weather } from 'src/app/models/weather';
 
 @Component({
   selector: 'app-cities',
@@ -8,8 +7,6 @@ import { Weather } from 'src/app/models/weather';
   styleUrls: ['./cities.component.scss']
 })
 export class CitiesComponent implements OnInit {
-
-  // weathers: Weather[];// = [];
 
   cities = ['Fortaleza', 'Sao Paulo', 'New York', 'Colorado'];
 

@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { AddCityComponent } from './components/add-city/add-city.component';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { Ng2FlatpickrModule } from 'ng2-flatpickr';
     PageNotFoundComponent,
     // HighlightDirective,
     // FilterPipe,
-    AddCityComponent
+    AddCityComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

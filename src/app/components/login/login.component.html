@@ -1,0 +1,21 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <table class="table">
+        <tr>
+        <th>
+            <label>Email</label>
+        </th>
+        <th>
+            <input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+        </th>
+        <th>
+            <button class="btn btn-primary">Login</button>
+        </th>
+        </tr>
+        </table>
+    </div>
+</form>

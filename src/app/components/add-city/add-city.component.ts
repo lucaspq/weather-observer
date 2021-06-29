@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { FlatpickrOptions } from 'ng2-flatpickr';
+import { ObservedCity } from 'src/app/models/observed-city';
+import { UserService } from 'src/app/services/user.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -42,6 +44,7 @@ export class AddCityComponent {
 
   constructor(
     private weatherService: WeatherService,
+    private userService: UserService,
     private formBuilder: FormBuilder
     ) {
       this.form = formBuilder.group({
@@ -78,6 +81,9 @@ export class AddCityComponent {
 
   onSubmit() {
     const city = this.form.controls.cityName.value;
+
+    this.userService.addObservedCity("email", new ObservedCity(city));
+
     this.weatherService.addWeather(city).subscribe( () => {
       console.log(`City ${city} successfully added!`);
       alert(`City ${city} successfully added between ${this.form.controls.start.value} e ${this.form.controls.end.value} !`);

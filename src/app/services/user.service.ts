@@ -8,7 +8,15 @@ export class UserService {
 
   private users = new Map<string, ObservedCity[]>();
 
-  constructor() {  }
+  isAuthenticated: boolean;
+
+  constructor() {
+    this.isAuthenticated = false;
+  }
+
+  authenticate() {
+    this.isAuthenticated = true;
+  }
 
   addObservedCity(userKey: string, observedCity: ObservedCity) {
     console.log("Inserting observed city: " + observedCity.city);
