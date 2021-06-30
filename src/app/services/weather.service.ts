@@ -23,6 +23,10 @@ export class WeatherService {
     return this._weathers;;
   }
 
+  clear() {
+    this._weathers = [];
+  }
+
   addWeather(city: string) {
     const url = `${this.baseUrl}?q=${city}&appid=${this.apiKey}`;
     return this.http.get(url).pipe(

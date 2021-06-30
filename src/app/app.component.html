@@ -4,7 +4,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/">Home</a>
+          <a class="nav-link" aria-current="page" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/addcity">Add City</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page" routerLink="/cities">Observed Cities</a>
@@ -14,7 +17,6 @@
     <app-login></app-login>
   </div>
 </nav>
-<app-add-city></app-add-city>
 <div style="padding: 24px 48px;">
   <router-outlet></router-outlet>
 </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ObservedCity } from 'src/app/models/observed-city';
+import { UserService } from 'src/app/services/user.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -8,10 +10,9 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class CitiesComponent implements OnInit {
 
-  cities = ['Fortaleza', 'Sao Paulo', 'New York', 'Colorado'];
-
   constructor(
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    private userService: UserService
   ) { }
 
   get weathers() {
@@ -19,12 +20,16 @@ export class CitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadWeathers();
+    if (this.userService.isAuthenticated)
+      this.loadWeathers();
   }
 
   loadWeathers() {
-    this.cities.forEach( (city: string) => {
-      this.addObservedCity(city);
+    this.weatherService.clear();
+    const observedCities = this.userService.getObservedCities();
+    observedCities.forEach( (observedCity: ObservedCity) => {
+      if (observedCity.active)
+        this.addObservedCity(observedCity.city);
     })
   }
 

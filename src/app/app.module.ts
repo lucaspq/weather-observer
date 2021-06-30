@@ -13,6 +13,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { AddCityComponent } from './components/add-city/add-city.component';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LoginComponent } from './components/login/login.component';
     // HighlightDirective,
     // FilterPipe,
     AddCityComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

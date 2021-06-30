@@ -43,7 +43,6 @@ export class AddCityComponent {
   form: FormGroup;
 
   constructor(
-    private weatherService: WeatherService,
     private userService: UserService,
     private formBuilder: FormBuilder
     ) {
@@ -81,13 +80,11 @@ export class AddCityComponent {
 
   onSubmit() {
     const city = this.form.controls.cityName.value;
+    const startDateTime = new Date(this.form.controls.start.value);
+    const endDateTime = new Date(this.form.controls.end.value);
 
-    this.userService.addObservedCity("email", new ObservedCity(city));
-
-    this.weatherService.addWeather(city).subscribe( () => {
-      console.log(`City ${city} successfully added!`);
-      alert(`City ${city} successfully added between ${this.form.controls.start.value} e ${this.form.controls.end.value} !`);
-    });
+    this.userService.addObservedCity(new ObservedCity(city, startDateTime, endDateTime));
+    console.log(`City ${city} successfully added between ${startDateTime} e ${endDateTime} !`);
   }
 
   selectEvent(item) {

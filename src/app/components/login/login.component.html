@@ -1,3 +1,15 @@
+<div *ngIf="isAuthenticated">
+    <table class="table">
+        <tr>
+        <th>
+            <label>{{f.email.value}}</label>
+        </th>
+        <th>
+            <button class="btn btn-primary" (click)="logout()">Logout</button>
+        </th>
+    </table>
+</div>
+<div *ngIf="!isAuthenticated">
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <table class="table">
@@ -19,3 +31,4 @@
         </table>
     </div>
 </form>
+</div>
