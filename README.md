@@ -8,7 +8,7 @@ Run `ng serve` for a frontend server. Navigate to `http://localhost:4200/`. The 
 
 ## Backend server
 
-Run `ng start` for a backend server. Navigate to `http://localhost:3000/`.
+Access the directory `server/weatherbackend/` and Run `ng start` for a backend server. Navigate to `http://localhost:3000/`.
 
 ## Code scaffolding
 
