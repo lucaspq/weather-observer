@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { FlatpickrOptions } from 'ng2-flatpickr';
+import { map, startWith } from 'rxjs/operators';
 import { ObservedCity } from 'src/app/models/observed-city';
+import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
@@ -12,10 +14,12 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class AddCityComponent {
 
-  cityList = require('./city.list.json');
-  cityNameList = [];
-  cityKey = '';
-  cities = ['Fortaleza', 'Sao Paulo', 'New York', 'Colorado'];
+  cityList = require('../../../assets/city.list.json');
+
+  private options: any[] = [];
+  public cityName = new FormControl();
+  public filteredOptions: string[];
+  public height: string;
 
 
   @ViewChild('startPicker') pickerStart;
@@ -44,6 +48,7 @@ export class AddCityComponent {
 
   constructor(
     private userService: UserService,
+    private weatherService: WeatherService,
     private formBuilder: FormBuilder
     ) {
       this.form = formBuilder.group({
@@ -70,34 +75,44 @@ export class AddCityComponent {
         });
       });
 
-      this.cityNameList = this.cityList.map( (d: any) => d.name);
+  }
 
-    }
 
   ngOnInit(): void {
 
+    this.options = this.cityList;
+
+    // Listen for changes to the input
+    this.cityName.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => {
+          // Filter the options
+          this.filteredOptions = this.options.filter(option => option.name.toLowerCase().startsWith(value.toLowerCase()));
+
+          // Recompute how big the viewport should be.
+          if (this.filteredOptions.length < 4) {
+            this.height = (this.filteredOptions.length * 25) + 'px';
+          } else {
+            this.height = '200px'
+          }
+        })
+      ).subscribe();
   }
 
   onSubmit() {
-    const city = this.form.controls.cityName.value;
+    const city = this.cityName.value;
     const startDateTime = new Date(this.form.controls.start.value);
     const endDateTime = new Date(this.form.controls.end.value);
+    const observedCity = new ObservedCity(city, startDateTime, endDateTime);
 
-    this.userService.addObservedCity(new ObservedCity(city, startDateTime, endDateTime));
-    console.log(`City ${city} successfully added between ${startDateTime} e ${endDateTime} !`);
-  }
-
-  selectEvent(item) {
-    // do something with selected item
-  }
-
-  onChangeSearch(val: string) {
-    // fetch remote data from here
-    // And reassign the 'data' which is binded to 'data' property.
-  }
-  
-  onFocused(e){
-    // do something when input is focused
+    this.userService.AddObservedCity(this.userService.loggedUser, observedCity)
+    .subscribe( () => {
+      console.log('ObservedCity:', observedCity);
+      alert(`The city ${observedCity.city} is under observation!`);
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 }

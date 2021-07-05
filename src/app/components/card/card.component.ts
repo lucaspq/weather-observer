@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Weather } from 'src/app/models/weather';
+import { ObservedCity } from 'src/app/models/observed-city';
 
 @Component({
   selector: 'app-card',
@@ -9,11 +9,12 @@ import { Weather } from 'src/app/models/weather';
 export class CardComponent implements OnInit {
 
   @Input()
-  weather: Weather;
+  weather: ObservedCity;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.weather.obsDateTime = new Date(Number(this.weather.obsDateTime)*1000);
   }
 
 }

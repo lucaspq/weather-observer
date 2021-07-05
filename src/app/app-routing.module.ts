@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddCityComponent } from './components/add-city/add-city.component';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CitiesComponent } from './pages/cities/cities.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';

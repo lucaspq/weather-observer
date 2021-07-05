@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ObservedCity } from 'src/app/models/observed-city';
 import { UserService } from 'src/app/services/user.service';
-import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-cities',
@@ -10,33 +9,30 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class CitiesComponent implements OnInit {
 
+  _weathers: ObservedCity[];
+
   constructor(
-    private weatherService: WeatherService,
     private userService: UserService
-  ) { }
+  ) {
+    this._weathers = [];
+   }
 
   get weathers() {
-    return this.weatherService.allWeathers;
+    return this._weathers;
   }
 
   ngOnInit(): void {
-    if (this.userService.isAuthenticated)
-      this.loadWeathers();
+    this._weathers = [];
+    this.loadWeathers();
   }
 
   loadWeathers() {
-    this.weatherService.clear();
-    const observedCities = this.userService.getObservedCities();
-    observedCities.forEach( (observedCity: ObservedCity) => {
-      if (observedCity.active)
-        this.addObservedCity(observedCity.city);
-    })
-  }
-
-  private addObservedCity(city: string) {
-    this.weatherService.addWeather(city).subscribe( () => {
-      console.log(`City ${city} successfully added!`);
+    this.userService.GetObservedCities(this.userService.loggedUser)
+    .subscribe( observedCities => {
+      console.log(observedCities);
+      this._weathers = observedCities;
+    }, (err) => {
+      console.log(err);
     });
   }
-
 }

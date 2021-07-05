@@ -1,4 +1,4 @@
-<div class="weathers-grid">
+<div class="weathers-grid" *ngIf="weathers.length">
   <div *ngFor="let weather of weathers">
     <app-card [weather]="weather">
     </app-card>

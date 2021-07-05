@@ -1,5 +1,9 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ObservedCity } from '../models/observed-city';
+import { User } from '../models/user';
 import { WeatherService } from './weather.service';
 
 @Injectable({
@@ -8,11 +12,23 @@ import { WeatherService } from './weather.service';
 export class UserService {
 
   private users = new Map<string, ObservedCity[]>();
-  loggedUser: string;
-
+  loggedUser: string = 'GoShare';
   private _isAuthenticated: boolean;
 
+  REST_API: string = 'http://localhost:3000/users';
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type':  'application/json' })
+  };
+  // httpOptions = {
+  //   headers: new HttpHeaders({
+  //     'Content-Type':  'application/json',
+  //     'Access-Control-Allow-Origin': '*',
+  //     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+  //     'Access-Control-Allow-Headers': 'X-Requested-With,content-type'
+  //   })
+  // };
   constructor(
+    private http: HttpClient,
     private weatherService: WeatherService
   ) {
     this._isAuthenticated = false;
@@ -26,29 +42,49 @@ export class UserService {
     return this._isAuthenticated;
   }
 
-  addObservedCity(observedCity: ObservedCity) {
-    console.log("Inserting observed city: " + observedCity.city);
-    const userKey = this.loggedUser;
-
-    if ( this.users.has(userKey) ) {
-      this.users.get(userKey).push(observedCity);
-    } else {
-      this.users.set(userKey, [observedCity]);
-    }
-
-    this.weatherService.addWeather(observedCity.city).subscribe( () => {
-      alert(`City ${observedCity.city} successfully!`);
-    });
-    console.log(this.users);
-  }
-
-  getObservedCities(): ObservedCity[] {
-    return this.users.get(this.loggedUser);
-  }
-
   logout() {
     this._isAuthenticated = false;
     this.loggedUser = '';
   }
 
+
+  // Add Observed City
+  AddObservedCity(userkey: string, observedcity: ObservedCity): Observable<any> {
+    let API_URL = `${this.REST_API}/add-observedcity`;
+    const data = { "userkey": userkey, "observedcity": observedcity };
+    console.log(data);
+    return this.http.post(API_URL, data)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // getUser
+  GetObservedCities(userKey: string): Observable<any> {
+    let API_URL = `${this.REST_API}/${userKey}`;
+    return this.http.get<ObservedCity[]>(API_URL)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+   // Get all objects
+   GetUsers() {
+    return this.http.get(`${this.REST_API}`);
+  }
+
+  // Error 
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Handle client error
+      errorMessage = error.error.message;
+    } else {
+      // Handle server error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+  }
+    
 }

@@ -11,6 +11,7 @@ export class WeatherService {
 
   apiKey = '4d524ca0be73afecaadfc98ec51bdaf1';
   baseUrl = 'http://api.openweathermap.org/data/2.5/weather';
+  units = 'metric';
 
   private _weathers: Weather[] = [];
   private weatherDto = new WeatherDto();
@@ -20,7 +21,7 @@ export class WeatherService {
   ) { }
 
   get allWeathers() {
-    return this._weathers;;
+    return this._weathers;
   }
 
   clear() {
@@ -28,7 +29,7 @@ export class WeatherService {
   }
 
   addWeather(city: string) {
-    const url = `${this.baseUrl}?q=${city}&appid=${this.apiKey}`;
+    const url = `${this.baseUrl}?q=${city}&units=${this.units}&appid=${this.apiKey}`;
     return this.http.get(url).pipe(
       map( (res: any) => {
         this._weathers.push(this.weatherDto.convertResponseToWeather(res));

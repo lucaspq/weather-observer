@@ -1,28 +1,29 @@
 <div [formGroup]="form" class="d-flex">
-    <div class="ng-autocomplete">
-        <ng-autocomplete 
-          [data]="cities"
-          [minQueryLength]=1
-          [searchKeyword]="cityKey"
-          (selected)='selectEvent($event)'
-          (inputChanged)='onChangeSearch($event)'
-          (inputFocused)='onFocused($event)'
-          [itemTemplate]="itemTemplate"
-          [notFoundTemplate]="notFoundTemplate"
-          formControlName='cityName'>                    
-        </ng-autocomplete>
-        
-        <ng-template #itemTemplate let-item>
-        <a [innerHTML]="item"></a>
-        </ng-template>
-        
-        <ng-template #notFoundTemplate let-notFound>
-        <div [innerHTML]="notFound"></div>
-        </ng-template>
-    </div>
-
-    <!-- <input class="form-control me-2" type="search" formControlName="cityName" placeholder="Enter City" aria-label="Search"> -->
+  <table class="table">
+    <tr><th>
+    <mat-form-field>
+      <input type="text"
+        placeholder="Enter City"
+        [formControl]="cityName"
+        matInput
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <cdk-virtual-scroll-viewport class="autocomplete-test-viewport" 
+          [ngStyle]="{'height': height}"
+          itemSize="25" >
+          <mat-option *cdkVirtualFor="let option of filteredOptions"
+            [value]="option.name"
+            class="autocomplete-item">
+            {{option.name}} - {{option.state}}/{{option.country}}
+          </mat-option>
+        </cdk-virtual-scroll-viewport>
+      </mat-autocomplete>
+    </mat-form-field>
+    </th><th>
     <ng2-flatpickr #startPicker [config]="startOptions" formControlName="start"></ng2-flatpickr>
+    </th><th>
     <ng2-flatpickr #endPicker [config]="endOptions" formControlName="end"></ng2-flatpickr>
+    </th><th>
     <button class="btn btn-primary" type="submit" (click)="onSubmit()">Add</button>
+    </th></tr></table>
 </div>
