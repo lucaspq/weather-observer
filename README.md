@@ -10,6 +10,10 @@ Run `ng serve` for a frontend server. Navigate to `http://localhost:4200/`. The 
 
 Access the directory `server/weatherbackend/` and Run `ng start` for a backend server. Navigate to `http://localhost:3000/`.
 
+### Documentation
+
+Open `http://localhost:3000/api-docs` in your browser to view the documentation.
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
