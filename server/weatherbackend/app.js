@@ -34,6 +34,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', userRouter);
 
+const expressSwagger = require('express-swagger-generator')(app);
+
+let options = {
+    swaggerDefinition: {
+        info: {
+            description: 'This is a server of Weather Observer Demo System',
+            title: 'Weather Observer Demo System',
+            version: '0.0.1'
+        },
+        host: 'localhost:3000/',
+        basePath: '',
+        produces: [
+            "application/json"        ],
+        schemes: ['http']
+    },
+    basedir: __dirname, //app absolute path
+    files: ['./routes/**/*.js'] //Path to the API handle folder
+};
+expressSwagger(options);
+
+
 module.exports = app;
 
 // 404 Handler
