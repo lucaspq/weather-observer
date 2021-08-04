@@ -1,6 +1,7 @@
 /home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/models/ObservedCity.java
 /home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/error/UserNotFoundException.java
 /home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/UserRepository.java
+/home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/config/SwaggerConfig.java
 /home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/WeatherObserverApplication.java
 /home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/WeatherService.java
 /home/lucas/GoShare/WeatherObserver/WeatherObserverBackend/src/main/java/com/lucaspq/WeatherObserverController.java

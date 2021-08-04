@@ -32,7 +32,7 @@ public class WeatherService {
         try {
             JsonNode root = objectMapper.readTree(response.getBody());
             observedCity.setDescription(root.path("weather").get(0).path("description").asText());
-            observedCity.setIconId(root.path("weather").get(0).path("icon").asText());
+            observedCity.setIcon(root.path("weather").get(0).path("icon").asText());
             observedCity.setTemperature(BigDecimal.valueOf(root.path("main").path("temp").asDouble()));
             observedCity.setObsDateTime(new Date(Long.valueOf(root.path("dt").asLong())*1000));
 

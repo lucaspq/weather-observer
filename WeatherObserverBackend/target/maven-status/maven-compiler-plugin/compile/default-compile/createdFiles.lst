@@ -1,0 +1,9 @@
+com/lucaspq/dtos/KeyAndObservedCityDTO.class
+com/lucaspq/WeatherService.class
+com/lucaspq/WeatherObserverApplication.class
+com/lucaspq/WeatherObserverController.class
+com/lucaspq/error/CustomGlobalExceptionHandler.class
+com/lucaspq/error/UserNotFoundException.class
+com/lucaspq/models/ObservedCity.class
+com/lucaspq/models/User.class
+com/lucaspq/UserRepository.class
