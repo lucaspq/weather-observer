@@ -1,0 +1,10 @@
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/ObservedCity.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/Book.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/WeatherObserverApplication.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/User.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/WeatherService.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/error/UserNotFoundException.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/UserRepository.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/WeatherObserverController.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/error/CustomGlobalExceptionHandler.java
+/home/lucas/GoShare/WeatherObserverBackend/src/main/java/com/mkyong/KeyAndObservedCityDTO.java
