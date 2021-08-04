@@ -4,15 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Frontend server
 
-Run `ng serve` for a frontend server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Backend server
-
-Access the directory `server/weatherbackend/` and Run `ng start` for a backend server. Navigate to `http://localhost:3000/`.
-
-### Documentation
-
-Open `http://localhost:3000/api-docs` in your browser to view the documentation.
+Access the directory `WeatherObserverFrontend` and Run `ng serve` for a frontend server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
