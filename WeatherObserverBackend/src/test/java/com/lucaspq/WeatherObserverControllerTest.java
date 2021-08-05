@@ -45,38 +45,33 @@ public class WeatherObserverControllerTest {
 
     @Before
     public void init() {
-        User user = new User(1L, "test@email.com");
+        User user = new User(1L, "test@email");
         when(mockRepository.findById(1L)).thenReturn(Optional.of(user));
     }
 
     @Test
-    public void findUserEmailOK() throws JSONException, JsonProcessingException {
-
-        User user = new User(1L, "test@email.com");
+    public void add_ObservedCity_OK() throws Exception {
         Date currentDate = Calendar.getInstance().getTime();
         Date startDateTime = new Date(currentDate.getTime() - _1DAY);
         Date endDateTime = new Date(currentDate.getTime() + _1DAY);
-        ObservedCity observedCity1 = new ObservedCity(1L, "City1", startDateTime, endDateTime);
-        ObservedCity observedCity2 = new ObservedCity(2L, "City2", startDateTime, endDateTime);
-        user.addObservedCity(observedCity1);
-        user.addObservedCity(observedCity2);
+        ObservedCity observedCity = new ObservedCity(1L, "City1", startDateTime, endDateTime);
 
-        // Only active cities
-        String expected = om.writeValueAsString(user.getListObservedCity());
+        KeyAndObservedCityDTO keyAndObservedCityDTO = new KeyAndObservedCityDTO("test@email.com", observedCity);
+        ResponseEntity<String> response = restTemplate.postForEntity("/users/add-observedcity", keyAndObservedCityDTO, String.class);
 
-        ObservedCity unActiveObservedCity = new ObservedCity(3L, "City3", startDateTime, startDateTime);
-        user.addObservedCity(unActiveObservedCity);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        verify(mockRepository, times(1)).save(any(User.class));
+    }
 
-        when(mockRepository.save(any(User.class))).thenReturn(user);
+    @Test
+    public void find_UserNotFound_404() throws Exception {
 
-        ResponseEntity<String> response = restTemplate.getForEntity("/users/email@test.com", String.class);
+        String expected = "{status:404,error:\"Not Found\",message:\"User email not found : a@a\",path:\"/users/a@a\"}";
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+        ResponseEntity<String> response = restTemplate.getForEntity("/users/a@a", String.class);
 
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         JSONAssert.assertEquals(expected, response.getBody(), false);
-
-        verify(mockRepository, times(1)).findByEmail("email@test.com");
 
     }
 
@@ -103,48 +98,46 @@ public class WeatherObserverControllerTest {
 
         when(mockRepository.findAll()).thenReturn(users);
 
-        String expected = om.writeValueAsString(users);
+        // String expected = om.writeValueAsString(users);
 
-        ResponseEntity<String> response = restTemplate.getForEntity("/users", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("/users/", String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        JSONAssert.assertEquals(expected, response.getBody(), false);
+        assertEquals(true, response.getBody().contains(user1.getEmail()));
+        assertEquals(true, response.getBody().contains(user2.getEmail()));
+        // JSONAssert.assertEquals(expected, response.getBody(), false);
 
         verify(mockRepository, times(1)).findAll();
     }
 
     @Test
-    public void find_UserNotFound_404() throws Exception {
+    public void findUserEmailOK() throws JSONException, JsonProcessingException {
 
-        String expected = "{status:404,error:\"Not Found\",message:\"User email not found : a@a\",path:\"/users/a@a\"}";
-
-        ResponseEntity<String> response = restTemplate.getForEntity("/users/a@a", String.class);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        JSONAssert.assertEquals(expected, response.getBody(), false);
-
-    }
-
-    @Test
-    public void add_ObservedCity_OK() throws Exception {
-
-        User user = new User(1L, "test@email.com");
+        User user = new User(1L, "test@email");
         Date currentDate = Calendar.getInstance().getTime();
         Date startDateTime = new Date(currentDate.getTime() - _1DAY);
         Date endDateTime = new Date(currentDate.getTime() + _1DAY);
-        ObservedCity observedCity = new ObservedCity(1L, "City1", startDateTime, endDateTime);
-        user.addObservedCity(observedCity);
+        ObservedCity observedCity1 = new ObservedCity(1L, "City1", startDateTime, endDateTime);
+        ObservedCity observedCity2 = new ObservedCity(2L, "City2", startDateTime, endDateTime);
+        user.addObservedCity(observedCity1);
+        user.addObservedCity(observedCity2);
 
-        String expected = om.writeValueAsString(user);
+        // Only active cities
+        String expected = om.writeValueAsString(user.getListObservedCity());
 
-        KeyAndObservedCityDTO keyAndObservedCityDTO = new KeyAndObservedCityDTO(user.getEmail(), observedCity);
-        ResponseEntity<String> response = restTemplate.postForEntity("/users/add-observedcity", keyAndObservedCityDTO, String.class);
+        ObservedCity unActiveObservedCity = new ObservedCity(3L, "City3", startDateTime, startDateTime);
+        user.addObservedCity(unActiveObservedCity);
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        when(mockRepository.save(any(User.class))).thenReturn(user);
+
+        ResponseEntity<String> response = restTemplate.getForEntity("/users/" + user.getEmail(), String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+
         JSONAssert.assertEquals(expected, response.getBody(), false);
 
-        verify(mockRepository, times(1)).save(any(User.class));
-
+        verify(mockRepository, times(1)).findByEmail(user.getEmail());
     }
 
 }
